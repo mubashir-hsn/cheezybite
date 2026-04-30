@@ -1,24 +1,43 @@
 <?php
+session_start();
 include('connect.php');
 include('./functions/getProducts.php');
 
-session_start();
-
-if (!isset($_SESSION['login']) && $_SESSION['login'] !== true) {
+// ensure logged in
+if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
     echo "<script>alert('Please login to view your orders.'); window.location='login.php'</script>";
     exit();
 }
 
-$user_id = $_SESSION['user_id'] ?? '';
-//fetch specific order
-$order_id = $_GET['order_id'];
-$order_query = mysqli_query($con, "SELECT * FROM orders WHERE id = '$order_id'");
-$res = mysqli_fetch_assoc($order_query);
+$user_id = intval($_SESSION['user_id'] ?? 0);
+
+// validate order_id
+$order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
+if ($order_id <= 0) {
+    echo "<script>alert('Invalid order selected.'); window.location='orders.php'</script>";
+    exit();
+}
+
+// fetch specific order and ensure it belongs to the logged in user
+$order_stmt = mysqli_query($con, "SELECT * FROM orders WHERE id = $order_id LIMIT 1");
+if (!$order_stmt) {
+    echo "<script>alert('Database error.'); window.location='orders.php'</script>";
+    exit();
+}
+$res = mysqli_fetch_assoc($order_stmt);
+if (!$res) {
+    echo "<script>alert('Order not found.'); window.location='orders.php'</script>";
+    exit();
+}
+if (isset($res['user_id']) && intval($res['user_id']) !== $user_id) {
+    echo "<script>alert('You are not authorized to view this order.'); window.location='orders.php'</script>";
+    exit();
+}
 
 // fetch order items
-
-$query = "SELECT order_items.* ,p.name,p.image,p.price FROM order_items JOIN products AS p ON order_items.product_id = p.id WHERE order_items.order_id = '$order_id'";
+$query = "SELECT order_items.* , p.name, p.image, p.price FROM order_items JOIN products AS p ON order_items.product_id = p.id WHERE order_items.order_id = $order_id";
 $result = mysqli_query($con, $query);
+if ($result === false) $result = [];
 
 
 ?>
@@ -74,15 +93,24 @@ $result = mysqli_query($con, $query);
                             </tr>
                         </thead>
                         <tbody class= "text-center" style="background-color: white;">
-                            <?php while ($product = mysqli_fetch_assoc($result)) { ?>
-                                <tr>
-                                    <td class="text-start ps-3">
-                                        <img src="./images/<?php echo $product['image']; ?>" width="50" height="40">
-                                        <span class="ps-2"> <?php echo $product['name']; ?></span>
-                                    </td>
-                                    <td><?php echo $product['quantity']; ?></td>
-                                    <td>Rs. <?php echo $product['price'] * $product['quantity']; ?></td>
-                                </tr>
+                            <?php if ($result && is_object($result)) {
+                                $has = false;
+                                while ($product = mysqli_fetch_assoc($result)) {
+                                    $has = true; ?>
+                                    <tr>
+                                        <td class="text-start ps-3">
+                                            <img src="./images/<?php echo htmlspecialchars($product['image']); ?>" width="50" height="40">
+                                            <span class="ps-2"> <?php echo htmlspecialchars($product['name']); ?></span>
+                                        </td>
+                                        <td><?php echo intval($product['quantity']); ?></td>
+                                        <td>Rs. <?php echo intval($product['price']) * intval($product['quantity']); ?></td>
+                                    </tr>
+                                <?php }
+                                if (!$has) { ?>
+                                    <tr><td colspan="3">No items found for this order.</td></tr>
+                                <?php }
+                            } else { ?>
+                                <tr><td colspan="3">No items found for this order.</td></tr>
                             <?php } ?>
                         </tbody>
                     </table>
@@ -140,8 +168,7 @@ $result = mysqli_query($con, $query);
 
     <!-- .............. Footer Section End ............................... -->
 
-    <script src="/js/bootstrap.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/bootstrap.js"></script>
 
 </body>
 

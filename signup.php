@@ -27,7 +27,8 @@
     echo "<script>alert('Email already existed.');</script>";
   }else{
     // register user..
-    $res = mysqli_query($con,"INSERT INTO `users`(`first_name`, `last_name`, `email`, `password`) VALUES ('$first_name','$last_name','$email','$hash_password')");
+    // Set default role to 'user' for newly registered accounts
+    $res = mysqli_query($con,"INSERT INTO `users`(`first_name`, `last_name`, `email`, `password`, `role`) VALUES ('$first_name','$last_name','$email','$hash_password','user')");
     
     if ($res) {
 

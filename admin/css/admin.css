@@ -1,0 +1,254 @@
+/* Admin panel styles - consolidated and cleaned */
+:root {
+  --brand: #c50303;
+  --accent: #fda902; /* premium accent */
+  --muted: #f5f4f4;
+}
+
+/* base */
+html,
+body {
+  height: 100%;
+}
+body {
+  font-family: Poppins, sans-serif;
+  background: var(--muted);
+  margin: 0;
+}
+
+.admin-container {
+  display: flex;
+  height: 100vh; /* fixed viewport height */
+  overflow: hidden;
+}
+
+/* sidebar */
+.sidebar {
+  width: 250px;
+  background: #fff;
+  border-right: 1px solid #eee;
+  padding: 20px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: auto;
+}
+
+.admin-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  margin-bottom: 1rem;
+}
+.admin-brand img {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid rgba(0, 0, 0, 0.04);
+}
+.admin-brand span {
+  font-family: Agbalumo, Poppins, sans-serif;
+  color: var(--accent);
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
+.sidebar a {
+  display: block;
+  padding: 10px 12px;
+  color: var(--brand);
+  font-weight: 600;
+  margin-bottom: 6px;
+  border-radius: 8px;
+  text-decoration: none;
+}
+.sidebar a:hover {
+  background: rgba(253, 169, 2, 0.06);
+  color: var(--brand);
+}
+
+/* main content */
+.main {
+  flex: 1;
+  padding: 28px;
+  height: 100vh;
+  overflow: auto; /* allow main content to scroll within viewport */
+}
+.main .container,
+.main .container-fluid {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* chart */
+.chart-container {
+  height: 300px;
+  width: 100%;
+}
+
+/* cards */
+.card-stat {
+  border-radius: 12px;
+}
+.card-stat h6 {
+  color: #666;
+  margin-bottom: 8px;
+}
+.card-stat h2 {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* product card */
+.product-card {
+  position: relative;
+  overflow: visible;
+}
+.product-card .icon-overlay {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+.product-card .btn-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+}
+.product-card .btn-icon.btn-edit {
+  background: rgba(13, 110, 253, 0.08);
+  color: #0d6efd;
+}
+.product-card .btn-icon.btn-delete {
+  background: rgba(220, 53, 69, 0.08);
+  color: #dc3545;
+}
+
+.card .card-img-top {
+  height: 160px;
+  object-fit: cover;
+}
+.card .card-body {
+  padding: 12px;
+}
+.card:hover {
+  transform: translateY(-4px);
+  transition: all 0.18s ease;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* admin tables */
+.admin-table {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-collapse: collapse;
+  width: 100%;
+}
+.admin-table thead th {
+  background: var(--accent);
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+.admin-table tbody td {
+  background: #fff;
+  vertical-align: middle;
+  padding: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+/* badge/roles */
+.badge-role {
+  background: #fff3db;
+  color: var(--accent);
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 12px;
+}
+
+/* responsive */
+@media (max-width: 900px) {
+  .admin-container {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    position: relative;
+    border-right: none;
+    border-bottom: 1px solid #eee;
+  }
+  .main {
+    padding: 16px;
+  }
+  .card .card-img-top {
+    height: 140px;
+  }
+  .product-card .icon-overlay {
+    right: 8px;
+    top: 8px;
+  }
+}
+
+/* toasts */
+#adminToastContainer .toast {
+  margin-top: 8px;
+}
+
+/* product list card (horizontal) */
+.product-list-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  margin-bottom: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+.product-list-card img {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.product-list-card .info {
+  flex: 1;
+}
+.product-list-card .info h5 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+.product-list-card .info p {
+  margin: 4px 0 0;
+  color: #666;
+}
+.product-list-card .actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-delete-large {
+  background: #ff6b6b;
+  color: #fff;
+  border: none;
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+.btn-edit-small {
+  background: transparent;
+  border: none;
+  color: var(--accent);
+  font-size: 18px;
+}

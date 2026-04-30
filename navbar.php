@@ -43,6 +43,9 @@ $currentPage = basename($_SERVER['PHP_SELF']); // Get current page name like 'in
       <li class="nav-item"><a class="nav-link <?= ($currentPage === 'menu.php') ? 'active' : '' ?>" href="./menu.php">Menu</a></li>
       <li class="nav-item"><a class="nav-link <?= ($currentPage === 'about.php') ? 'active' : '' ?>" href="./about.php">About Us</a></li>
       <li class="nav-item"><a class="nav-link <?= ($currentPage === 'contact.php') ? 'active' : '' ?>" href="./contact.php">Contact</a></li>
+      <?php if ($authUser && $role === 'admin'): ?>
+        <li class="nav-item"><a class="nav-link <?= ($currentPage === 'admin') ? 'active' : '' ?>" href="./admin/index.php">Admin</a></li>
+      <?php endif; ?>
     </ul>
 
     <!-- Right: Cart + User -->
@@ -69,7 +72,7 @@ $currentPage = basename($_SERVER['PHP_SELF']); // Get current page name like 'in
 
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
             <?php if ($role === 'admin'): ?>
-              <li><a class="dropdown-item" href="./admin/dashboard.php">Dashboard</a></li>
+              <li><a class="dropdown-item" href="./admin/index.php">Dashboard</a></li>
             <?php else: ?>
               <li><a class="dropdown-item" href="./profile.php">Profile</a></li>
               <li><hr class="dropdown-divider"></li>
@@ -94,12 +97,15 @@ $currentPage = basename($_SERVER['PHP_SELF']); // Get current page name like 'in
     </a>
     <button type="button" class="btn-close pe-5" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
-  <div class="offcanvas-body">
+    <div class="offcanvas-body">
     <ul class="navbar-nav ps-4" style="font-weight: 500;">
       <li class="nav-item"><a class="nav-link <?= ($currentPage === 'index.php') ? 'active' : '' ?>" href="./index.php">Home</a></li>
       <li class="nav-item"><a class="nav-link <?= ($currentPage === 'menu.php') ? 'active' : '' ?>" href="./menu.php">Menu</a></li>
       <li class="nav-item"><a class="nav-link <?= ($currentPage === 'about.php') ? 'active' : '' ?>" href="./about.php">About Us</a></li>
       <li class="nav-item"><a class="nav-link <?= ($currentPage === 'contact.php') ? 'active' : '' ?>" href="./contact.php">Contact</a></li>
+      <?php if ($authUser && $role === 'admin'): ?>
+        <li class="nav-item"><a class="nav-link" href="./admin/index.php">Admin Dashboard</a></li>
+      <?php endif; ?>
     </ul>
   </div>
 </div>
