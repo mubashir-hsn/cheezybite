@@ -19,7 +19,7 @@
         </div>
       </div> 
       <aside class="text-muted">
-        <p>Copyright © 2025 - All rights reserved.</p>
+        <p>Copyright © 2026 - All rights reserved.</p>
       </aside>
     </div>
   </footer>

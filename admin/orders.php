@@ -19,21 +19,10 @@ $res = mysqli_query($con, "SELECT o.*, u.first_name,u.last_name FROM orders o LE
   </head>
   <body>
     <div class="admin-container">
-      <aside class="sidebar">
-        <a href="../index.php" class="admin-brand">
-          <img src="../logo/logo.jpg" alt="CheezyBite">
-          <span>CheezyBite</span>
-        </a>
-        <a href="index.php">Dashboard</a>
-        <a href="add_product.php">Add Product</a>
-        <a href="manage_products.php">Manage Products</a>
-        <a href="users.php">Users</a>
-        <a href="orders.php">Orders</a>
-        <a href="../logout.php">Logout</a>
-      </aside>
+      <?php include __DIR__ . '/sidebar.php'; ?>
       <main class="main">
         <div class="container">
-          <h3 style="font-family:Agbalumo;color:#b50101;">Orders</h3>
+          <h3 style="font-family:Agbalumo;color:#b50101;border-bottom: 2px solid #b50101" class="w-100 pb-1">Orders</h3>
           <div class="table-responsive mt-3">
             <table class="table admin-table table-sm align-middle">
               <thead>
@@ -65,7 +54,7 @@ $res = mysqli_query($con, "SELECT o.*, u.first_name,u.last_name FROM orders o LE
                             }
                             ?>
                           </select>
-                          <button class="btn btn-sm btn-primary">Save</button>
+                          <button class="btn btn-sm cartHover">Save</button>
                         </form>
                       </td>
                       <td><?php echo $row['order_date'] ?? ''; ?></td>

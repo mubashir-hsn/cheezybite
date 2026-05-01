@@ -11,27 +11,34 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
 
 $user_id = intval($_SESSION['user_id'] ?? 0);
 
+// detect admin and set redirect target accordingly
+$is_admin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
+$redirect_to = $is_admin ? 'admin/orders.php' : 'orders.php';
+
 // validate order_id
 $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
 if ($order_id <= 0) {
-    echo "<script>alert('Invalid order selected.'); window.location='orders.php'</script>";
+    echo "<script>alert('Invalid order selected.'); window.location='{$redirect_to}'</script>";
     exit();
 }
 
 // fetch specific order and ensure it belongs to the logged in user
 $order_stmt = mysqli_query($con, "SELECT * FROM orders WHERE id = $order_id LIMIT 1");
 if (!$order_stmt) {
-    echo "<script>alert('Database error.'); window.location='orders.php'</script>";
+    echo "<script>alert('Database error.'); window.location='{$redirect_to}'</script>";
     exit();
 }
 $res = mysqli_fetch_assoc($order_stmt);
 if (!$res) {
-    echo "<script>alert('Order not found.'); window.location='orders.php'</script>";
+    echo "<script>alert('Order not found.'); window.location='{$redirect_to}'</script>";
     exit();
 }
 if (isset($res['user_id']) && intval($res['user_id']) !== $user_id) {
-    echo "<script>alert('You are not authorized to view this order.'); window.location='orders.php'</script>";
-    exit();
+    // allow admins to view other users' orders
+    if (!$is_admin) {
+        echo "<script>alert('You are not authorized to view this order.'); window.location='{$redirect_to}'</script>";
+        exit();
+    }
 }
 
 // fetch order items

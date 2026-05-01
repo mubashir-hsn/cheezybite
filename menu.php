@@ -1,5 +1,7 @@
 <?php
 include('./functions/getProducts.php');
+// current category from query (all, pizza, burger, addon)
+$currentCategory = isset($_GET['category']) ? trim($_GET['category']) : 'all';
 ?>
 
 <!DOCTYPE html>
@@ -43,10 +45,24 @@ include('./functions/getProducts.php');
 
   </div>
 
-  <!-- .......... Pizza Section Start .................................  -->
+  <!-- Category filter buttons -->
+  <div class="container mt-3">
+    <div class="d-flex gap-2 justify-content-center">
+      <?php
+        $cats = [ 'all' => "All", 'pizza' => "Pizza", 'burger' => "Burger", 'addon' => "AddOns" ];
+        foreach ($cats as $key => $label) {
+          $active = ($currentCategory === $key) ? 'btn btn-danger' : 'btn btn-outline-danger';
+          $href = ($key === 'all') ? 'menu.php' : 'menu.php?category=' . $key;
+          echo "<a href=\"$href\" class=\"$active\">$label</a>";
+        }
+      ?>
+    </div>
+  </div>
 
+  <!-- .......... Pizza Section Start .................................  -->
+  <?php if ($currentCategory === 'all' || $currentCategory === 'pizza'): ?>
   <section>
-    <div class="container-fluid mt-5">
+    <div class="container-fluid mt-2">
       <div class="container">
         <h1 style="font-family: Agbalumo; color: #b50101; border-bottom: 2px solid #b50101; padding-bottom: 10px; text-align: start;">
           > Pizza's
@@ -59,11 +75,12 @@ include('./functions/getProducts.php');
       </div>
     </div>
   </section>
+  <?php endif; ?>
 
   <!-- .......... Pizza Section End .................................  -->
 
   <!-- .......... Burger Section Start .................................  -->
-
+  <?php if ($currentCategory === 'all' || $currentCategory === 'burger'): ?>
   <section>
     <div class="container-fluid ">
       <div class="container mt-5">
@@ -78,11 +95,12 @@ include('./functions/getProducts.php');
       </div>
     </div>
   </section>
+  <?php endif; ?>
 
   <!-- .......... Burger Section End .................................  -->
 
   <!-- .......... Addone Section Start .................................  -->
-
+  <?php if ($currentCategory === 'all' || $currentCategory === 'addon'): ?>
   <section>
     <div class="container-fluid ">
       <div class="container mt-5">
@@ -97,6 +115,7 @@ include('./functions/getProducts.php');
       </div>
     </div>
   </section>
+  <?php endif; ?>
 
   <!-- .......... Addone Section End .................................  -->
 

@@ -16,7 +16,7 @@ function require_admin()
     $role = $_SESSION['role'] ?? 'user';
     if ($role !== 'admin') {
         // Redirect non-admin users to homepage
-        header('Location: /index.php');
+        header('Location: /cheezybite/index.php');
         exit();
     }
 }

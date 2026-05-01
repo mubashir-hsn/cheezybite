@@ -87,6 +87,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
+    if ($action === 'update_ticket_status') {
+        $id = intval($_POST['id'] ?? 0);
+        $status = mysqli_real_escape_string($con, $_POST['status'] ?? 'open');
+        $success = false;
+        if ($id) {
+            $success = (bool) mysqli_query($con, "UPDATE support SET status='$status' WHERE id=$id");
+        }
+        if ($isAjax) {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => $success, 'status' => $status]);
+            exit();
+        }
+        header('Location: support.php');
+        exit();
+    }
+
 }
 
 // For GET, redirect to dashboard

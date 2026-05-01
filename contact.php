@@ -1,3 +1,46 @@
+<?php
+session_start();
+include_once 'connect.php';
+
+$errors = [];
+$success = '';
+
+$name = $_POST['name'] ?? ($_SESSION['user_name'] ?? '');
+$email = $_POST['email'] ?? ($_SESSION['email'] ?? '');
+$subject = $_POST['subject'] ?? '';
+$message = $_POST['message'] ?? '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	$name = trim($name);
+	$email = trim($email);
+	$subject = trim($subject);
+	$message = trim($message);
+
+	if ($name === '') $errors[] = 'Name is required.';
+	if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'A valid email is required.';
+	if ($subject === '') $errors[] = 'Subject is required.';
+	if ($message === '') $errors[] = 'Message is required.';
+
+	if (empty($errors)) {
+		$user_id = isset($_SESSION['user_id']) ? intval($_SESSION['user_id']) : null;
+		$stmt = mysqli_prepare($con, "INSERT INTO support (user_id, name, email, subject, message) VALUES (?, ?, ?, ?, ?)");
+		if ($stmt) {
+			mysqli_stmt_bind_param($stmt, 'issss', $user_id, $name, $email, $subject, $message);
+			if (mysqli_stmt_execute($stmt)) {
+				$success = 'Your message was sent. We will get back to you soon.';
+				// clear inputs
+				$subject = $message = '';
+			} else {
+				$errors[] = 'Database error: could not save message.';
+			}
+			mysqli_stmt_close($stmt);
+		} else {
+			$errors[] = 'Database error: could not prepare statement.';
+		}
+	}
+}
+
+?>
 <!doctype html>
 <html lang="en">
 
@@ -35,30 +78,36 @@
 							<div class="col-md-7 d-flex align-items-stretch">
 								<div class="contact-wrap w-100 p-md-5 p-4">
 									<h3 class="mb-4" style="font-family: Agbalumo; color: #b50101;">Get in touch</h3>
-									<div id="form-message-warning" class="mb-4"></div>
-									<div id="form-message-success" class="mb-4">
-										Your message was sent, thank you!
-									</div>
-									<form method="POST" id="contactForm" name="contactForm">
+																		<?php if (!empty($errors)): ?>
+																			<div class="alert alert-danger">
+																				<ul class="mb-0">
+																					<?php foreach ($errors as $e) echo '<li>'.htmlspecialchars($e).'</li>'; ?>
+																				</ul>
+																			</div>
+																		<?php endif; ?>
+																		<?php if ($success): ?>
+																			<div class="alert alert-success"><?= htmlspecialchars($success) ?></div>
+																		<?php endif; ?>
+																		<form method="POST" id="contactForm" name="contactForm">
 										<div class="row">
 											<div class="col-md-6">
 												<div class="form-group">
-													<input type="text" class="form-control" name="name" id="name" placeholder="Name">
+													<input type="text" class="form-control" name="name" id="name" placeholder="Name" value="<?= htmlspecialchars($name) ?>">
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
-													<input type="email" class="form-control" name="email" id="email" placeholder="Email">
+													<input type="email" class="form-control" name="email" id="email" placeholder="Email" value="<?= htmlspecialchars($email) ?>">
 												</div>
 											</div>
 											<div class="col-md-12">
 												<div class="form-group">
-													<input type="text" class="form-control" name="subject" id="subject" placeholder="Subject">
+													<input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" value="<?= htmlspecialchars($subject) ?>">
 												</div>
 											</div>
 											<div class="col-md-12">
 												<div class="form-group">
-													<textarea name="message" class="form-control" id="message" cols="30" rows="7" placeholder="Message"></textarea>
+													<textarea name="message" class="form-control" id="message" cols="30" rows="7" placeholder="Message"><?= htmlspecialchars($message) ?></textarea>
 												</div>
 											</div>
 											<div class="col-md-12">

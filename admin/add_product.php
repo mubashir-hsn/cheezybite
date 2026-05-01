@@ -46,22 +46,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <body>
     <?php require_once 'auth.php'; ?>
     <div class="admin-container">
-      <aside class="sidebar">
-        <a href="../index.php" class="admin-brand">
-          <img src="../logo/logo.jpg" alt="CheezyBite">
-          <span>CheezyBite</span>
-        </a>
-        <a href="index.php">Dashboard</a>
-        <a href="add_product.php">Add Product</a>
-        <a href="manage_products.php">Manage Products</a>
-        <a href="users.php">Users</a>
-        <a href="orders.php">Orders</a>
-        <a href="../logout.php">Logout</a>
-      </aside>
+      <?php include __DIR__ . '/sidebar.php'; ?>
       <main class="main">
         <div class="container">
-          <div class="card p-4">
-            <h3 style="font-family:Agbalumo;color:var(--accent);">Add New Food Item</h3>
+          <div class="card p-4 border-0">
+            <h3 style="font-family:Agbalumo;color:#b50101;border-bottom: 2px solid #b50101" class="w-100 pb-1">Add New Food Item</h3>
             <?php if ($message): ?><div class="alert alert-info"><?php echo $message; ?></div><?php endif; ?>
             <form method="post" enctype="multipart/form-data" class="mt-3">
               <div class="row g-3">

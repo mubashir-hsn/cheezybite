@@ -43,9 +43,6 @@ $currentPage = basename($_SERVER['PHP_SELF']); // Get current page name like 'in
       <li class="nav-item"><a class="nav-link <?= ($currentPage === 'menu.php') ? 'active' : '' ?>" href="./menu.php">Menu</a></li>
       <li class="nav-item"><a class="nav-link <?= ($currentPage === 'about.php') ? 'active' : '' ?>" href="./about.php">About Us</a></li>
       <li class="nav-item"><a class="nav-link <?= ($currentPage === 'contact.php') ? 'active' : '' ?>" href="./contact.php">Contact</a></li>
-      <?php if ($authUser && $role === 'admin'): ?>
-        <li class="nav-item"><a class="nav-link <?= ($currentPage === 'admin') ? 'active' : '' ?>" href="./admin/index.php">Admin</a></li>
-      <?php endif; ?>
     </ul>
 
     <!-- Right: Cart + User -->
@@ -73,6 +70,8 @@ $currentPage = basename($_SERVER['PHP_SELF']); // Get current page name like 'in
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
             <?php if ($role === 'admin'): ?>
               <li><a class="dropdown-item" href="./admin/index.php">Dashboard</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="./profile.php">Profile</a></li>
             <?php else: ?>
               <li><a class="dropdown-item" href="./profile.php">Profile</a></li>
               <li><hr class="dropdown-divider"></li>

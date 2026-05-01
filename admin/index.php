@@ -59,41 +59,30 @@ if ($res) {
   </head>
   <body>
     <div class="admin-container">
-      <aside class="sidebar">
-        <a href="../index.php" class="admin-brand">
-          <img src="../logo/logo.jpg" alt="CheezyBite">
-          <span>CheezyBite</span>
-        </a>
-        <a href="index.php">Dashboard</a>
-        <a href="add_product.php">Add Product</a>
-        <a href="manage_products.php">Manage Products</a>
-        <a href="users.php">Users</a>
-        <a href="orders.php">Orders</a>
-        <a href="../logout.php">Logout</a>
-      </aside>
+      <?php include __DIR__ . '/sidebar.php'; ?>
       <main class="main">
         <div class="container-fluid">
           <div class="row mb-4">
             <div class="col-12 d-flex justify-content-between align-items-center">
-              <h3 style="font-family:Agbalumo;color:#b50101;">Dashboard</h3>
+              <h3 style="font-family:Agbalumo;color:#b50101; border-bottom: 2px solid #b50101" class="w-100 pb-1">Dashboard</h3>
             </div>
           </div>
 
           <div class="row g-3 mb-4">
             <div class="col-md-4">
-              <div class="card card-stat p-3 shadow-sm">
+              <div class="card card-stat p-3 shadow-sm border-0">
                 <h6>Total Products</h6>
                 <h2><?php echo $products_count; ?></h2>
               </div>
             </div>
             <div class="col-md-4">
-              <div class="card card-stat p-3 shadow-sm">
+              <div class="card card-stat p-3 shadow-sm border-0">
                 <h6>Total Orders</h6>
                 <h2><?php echo $orders_count; ?></h2>
               </div>
             </div>
             <div class="col-md-4">
-              <div class="card card-stat p-3 shadow-sm">
+              <div class="card card-stat p-3 shadow-sm border-0">
                 <h6>Total Users</h6>
                 <h2><?php echo $users_count; ?></h2>
               </div>
@@ -102,7 +91,7 @@ if ($res) {
 
           <div class="row">
             <div class="col-12">
-              <div class="card p-3 shadow-sm">
+              <div class="card p-3 shadow-sm border-0">
                 <h6>Sales (recent)</h6>
                 <div class="chart-container">
                   <canvas id="salesChart"></canvas>

@@ -25,21 +25,10 @@ $res = mysqli_query($con, $sql);
   </head>
   <body>
     <div class="admin-container">
-      <aside class="sidebar">
-        <a href="../index.php" class="admin-brand">
-          <img src="../logo/logo.jpg" alt="CheezyBite">
-          <span>CheezyBite</span>
-        </a>
-        <a href="index.php">Dashboard</a>
-        <a href="add_product.php">Add Product</a>
-        <a href="manage_products.php">Manage Products</a>
-        <a href="users.php">Users</a>
-        <a href="orders.php">Orders</a>
-        <a href="../logout.php">Logout</a>
-      </aside>
+      <?php include __DIR__ . '/sidebar.php'; ?>
       <main class="main">
         <div class="container">
-          <h3 style="font-family:Agbalumo;color:#b50101;">Manage Food Items</h3>
+          <h3 style="font-family:Agbalumo;color:#b50101;border-bottom: 2px solid #b50101" class="w-100 pb-1">Manage Food Items</h3>
           <div class="d-flex justify-content-between align-items-center gap-3 mt-3 mb-2">
             <div>
               <form method="get" id="filterForm" class="d-flex align-items-center gap-2">
@@ -53,7 +42,7 @@ $res = mysqli_query($con, $sql);
               </form>
             </div>
             <div>
-              <a href="add_product.php" class="btn btn-sm btn-primary">Add New</a>
+              <a href="add_product.php" class="btn btn-sm cartHover">Add New</a>
             </div>
           </div>
 

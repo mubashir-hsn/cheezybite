@@ -60,21 +60,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </head>
   <body>
     <div class="admin-container">
-      <aside class="sidebar">
-        <a href="../index.php" class="admin-brand">
-          <img src="../logo/logo.jpg" alt="CheezyBite">
-          <span>CheezyBite</span>
-        </a>
-        <a href="index.php">Dashboard</a>
-        <a href="add_product.php">Add Product</a>
-        <a href="manage_products.php">Manage Products</a>
-        <a href="users.php">Users</a>
-        <a href="orders.php">Orders</a>
-        <a href="../logout.php">Logout</a>
-      </aside>
+      <?php include __DIR__ . '/sidebar.php'; ?>
       <main class="main">
         <div class="container">
-          <h3 style="font-family:Agbalumo;color:#b50101;">Edit Item</h3>
+          <h3 style="font-family:Agbalumo;color:#b50101;border-bottom: 2px solid #b50101" class="w-100 pb-1">Edit Item</h3>
           <?php if ($msg): ?><div class="alert alert-info"><?php echo $msg; ?></div><?php endif; ?>
           <form method="post" enctype="multipart/form-data" class="mt-3">
             <div class="mb-3">

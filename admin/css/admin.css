@@ -69,6 +69,12 @@ body {
   color: var(--brand);
 }
 
+/* active link styling */
+.sidebar a.active {
+  background: var(--accent);
+  color: #fff;
+}
+
 /* main content */
 .main {
   flex: 1;
